@@ -1,0 +1,24 @@
+.form{
+    background-color: #121212;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    padding: 5rem;
+    gap: 3rem;
+    font-family: ;
+}
+.form_header {
+    font-size: 3rem;
+}
+.form_start {
+    gap: 1rem;
+}
+.form_start_experience {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+

@@ -1,0 +1,38 @@
+.header_image {
+    width: 60%;
+    height: 50%;
+}
+
+.nav_bar {
+    background-color: #121212;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: larger;
+    font-weight: 400;
+    /* position: fixed; */
+    width: 100%;
+    top: 0;
+    transition: top 0.3s;
+    padding: 1rem 9rem 0 9rem;
+}
+.navbar-hidden {
+    top: -100px; /* Adjust to the height of your navbar */
+  }
+
+
+.nav_bar_links {
+    background-color: #121212;
+}
+.nav_bar_primary {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+}
+/* button {
+    background-color: #00ACC1;
+    border-radius:  8px;
+    border: none;
+} */
