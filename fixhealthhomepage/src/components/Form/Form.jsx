@@ -1,8 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 import './Form.css'
+
 
 const Form = () => {
     const [ageCheck, setAgeCheck] = useState(false)
+    const [data, setData] = useState(null)
+    const [doctors, setDoctors] = useState([]);
 
     const ageCheckFunction = (e) => {
         let formAge = parseInt(e.target.value, 10)
@@ -12,12 +16,51 @@ const Form = () => {
             setAgeCheck(false)
         }
     }
+
+    //api call using axios, it is a demo data creating using my-json-server.typicode.com
+    useEffect(() => {
+      const fetchData = async() => {
+        try {
+          const urlParams = new URLSearchParams(window.location.search);
+        const cityParam = urlParams.get('city');
+
+        let apiUrl = 'https://my-json-server.typicode.com/santtamk/my-json-server/db';
+
+        if (cityParam) {
+          apiUrl += `?city=${cityParam}`;
+        }
+
+        const response = await axios.get(apiUrl);
+        setData(response.data);
+        console.log('fetchData:', response.data);
+        }catch(err){
+          console.error('Issue fetching data check your github repo:', err)
+        }
+      }
+      fetchData();
+    }, [])
+    
+    const getDoctor = (e) => {
+      let locations = e.target.value.toLowerCase().trim();
+      const matchingDoctor = data.doctors.filter(doctor => doctor.location.toLowerCase() === locations)
+        setDoctors(matchingDoctor);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('city', locations);
+        window.history.replaceState({}, '', `${window.location.pathname}?${urlParams.toString()}`);
+      }
+    
+      function handleSubmit() {
+        // event.preventDefault(); // prevent the form from submitting
+        alert("The form was submitted, we will get back to you at the earliest.");
+      }
+
   return (  
     <>
     
-<div className="form">
+<div className="form" >
       <h3 className='form_header'>Request an Appointment</h3>
-      <form className="row g-3 form_start ">
+      <form className="row g-3 form_start"onSubmit={handleSubmit}>
         <div className="col-md-6">
           <label className="form-label form_name">Full Name</label>
           <input
@@ -32,7 +75,7 @@ const Form = () => {
           <label className="form-label">Phone Number</label>
           <input
             type="tle"
-            pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+            // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
             className="form-control"
             name="phone"
             placeholder="Phone Number"
@@ -61,11 +104,31 @@ const Form = () => {
               id="validationDefaultUsername"
               aria-describedby="inputGroupPrepend2"
               placeholder="Your current location"
+              onChange={getDoctor}
               required
             />
           </div>
         </div>
-        <div className="col-md-4">
+        <div className="col-md-6">
+        {doctors.length > 0 ? (
+                <>
+                  <label>Choose a Doctor</label>
+                    <select>
+                    {doctors.map((doctor) => (
+                      <option key={doctor.id}>
+                        {doctor.name}, {doctor.qualifications}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              )
+          : (
+              <>
+                <p>*Please Submit the form and we will get you connected with an available doctor.</p>
+              </>
+            )}
+        </div>
+        <div className="col-md-6">
           <label className="form-label">Company</label>
           <input
             type="text"
