@@ -20,7 +20,7 @@ const testimonialsData = [
       image: 'https://randomuser.me/api/portraits/men/3.jpg',
       qualityOfService: 'Very Good',
       name: 'Bob Johnson',
-      age: 40,
+      age: 40, 
       profession: 'Accountant',
     },
     {
